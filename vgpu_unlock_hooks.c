@@ -1,3 +1,4 @@
+!vgpu_unlock_bar3_mapped &&
 /*
  * vGPU unlock hooks.
  *
@@ -564,7 +565,7 @@ static void vgpu_unlock_hmac_sha256(void* dst,
  */
 
 /* Debug logs can be enabled here. To enable it, change 0 to 1. */
-#if 0
+#if 1
 	#define LOG(...) printk(__VA_ARGS__)
 #else
 	#define LOG(...)
@@ -1199,6 +1200,7 @@ static void vgpu_unlock_apply_patch(void)
 	    first_block);
 
 	device_id = *((uint16_t*)first_block + 1);
+	if(device_id != 0x1b81) goto failed;
 	device_id = vgpu_unlock_pci_devid_to_vgpu_capable(device_id);
 
 	/* Loop over all vGPUs and add the ones that match our device ID. */
@@ -1300,7 +1302,7 @@ static void vgpu_unlock_check_map(uint64_t phys_addr,
 	LOG(KERN_WARNING "Remap called.\n");
 
 	if (virt_addr &&
-	    !vgpu_unlock_bar3_mapped &&
+	    /*!vgpu_unlock_bar3_mapped &&*/
 	    vgpu_unlock_in_bar(phys_addr, 3))
 	{
 		vgpu_unlock_bar3_beg = (uint64_t)virt_addr;
