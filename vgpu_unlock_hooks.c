@@ -1,4 +1,3 @@
-!vgpu_unlock_bar3_mapped &&
 /*
  * vGPU unlock hooks.
  *
