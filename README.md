@@ -40,7 +40,7 @@ Modify the line begining with `ExecStart=` in `/lib/systemd/system/nvidia-vgpud.
 and `/lib/systemd/system/nvidia-vgpu-mgr.service` to use `vgpu_unlock` as
 executable and pass the original executable as the first argument. Ex:
 ```
-ExecStart=<path_to_vgpu_unlock>/vgpu_unlock /usr/bin/nvidia-vgpud
+ExecStart=/opt/vgpu_unlock /usr/bin/nvidia-vgpud
 ```
 
 Reload the systemd daemons:
@@ -52,13 +52,13 @@ Modify the file `/usr/src/nvidia-<version>/nvidia/os-interface.c` and add the
 following line after the lines begining with `#include` at the start of the
 file.
 ```
-#include "<path_to_vgpu_unlock>/vgpu_unlock_hooks.c"
+#include "/opt/vgpu_unlock_hooks.c"
 ```
 
 Modify the file `/usr/src/nvidia-<version>/nvidia/nvidia.Kbuild` and add the
 following line at the bottom of the file.
 ```
-ldflags-y += -T <path_to_vgpu_unlock>/kern.ld
+ldflags-y += -T /opt/kern.ld
 ```
 
 Remove the nvidia kernel module using dkms:
@@ -68,7 +68,7 @@ dkms remove -m nvidia -v <version> --all
 
 Rebuild and reinstall the nvidia kernel module using dkms:
 ```
-dkms install -m nvidia -v <version>
+dkms install -m nvidia -v <version> --force
 ```
 
 Reboot.
