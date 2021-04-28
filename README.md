@@ -52,13 +52,13 @@ Modify the file `/usr/src/nvidia-<version>/nvidia/os-interface.c` and add the
 following line after the lines begining with `#include` at the start of the
 file.
 ```
-#include "/opt/vgpu_unlock_hooks.c"
+#include "/opt/vgpu_unlock/vgpu_unlock_hooks.c"
 ```
 
 Modify the file `/usr/src/nvidia-<version>/nvidia/nvidia.Kbuild` and add the
 following line at the bottom of the file.
 ```
-ldflags-y += -T /opt/kern.ld
+ldflags-y += -T /opt/vgpu_unlock/kern.ld
 ```
 
 Remove the nvidia kernel module using dkms:
